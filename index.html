@@ -1,0 +1,63 @@
+<html>
+
+    <head>
+
+        <style>
+            .container {
+                display: flex;
+                justify-content: center;
+                margin: 0 32px;
+            }
+
+            .transformed-text {
+                width: 400px;
+                margin: 0 32px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="original-text">
+                <textarea rows="40" cols="80"></textarea>
+            </div>
+            <div class="transformed-text">
+                <svg id="svg-container" version="1.1" baseProfile="full" width="400" height="900" xmlns="http://www.w3.org/2000/svg">
+                </svg>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script type="text/javascript">
+
+            (function () {
+                var $transformed = $('.transformed-text');
+                var $transformedSvg = $("#svg-container");
+                $(".original-text > textarea").on("keyup", function (e) {
+                    var completeText = e.currentTarget.value;
+                    var lines = completeText.split("\n");
+                    var y = 0;
+
+                    $transformedSvg.empty();
+                    for (var l = 0; l < lines.length; ++l) {
+                        var words = lines[l].split(" ");
+                        var x = 0;
+                        for(var i = 0; i < words.length; ++i) {
+                            var el = document.createElementNS('http://www.w3.org/2000/svg', "rect");
+                            el.setAttribute('width', words[i].length * 10);
+                            el.setAttribute('height', '10');
+                            el.setAttribute('fill', '#c0c0c0');
+                            el.setAttribute('x', x);
+                            el.setAttribute('y', y);
+
+                            x += (words[i].length + 1) * 10;
+
+                            $transformedSvg.append(el);
+                        }
+                        y += 20;
+                    }
+                });
+            })();
+        </script>
+    </body>
+</html
